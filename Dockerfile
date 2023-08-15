@@ -26,6 +26,6 @@ ENV WARP_MAX_RETRIES=3
 ENV WARP_RETRY_INTERVAL=2
 
 HEALTHCHECK --interval=15s --timeout=5s --start-period=30s --retries=3 \
-  CMD curl -fsS "https://cloudflare.com/cdn-cgi/trace" | grep -qE "warp=(plus|on)" || (warp-cli disconnect && warp-cli connect)
+  CMD curl -fsS "https://cloudflare.com/cdn-cgi/trace" | grep -qE "warp=(plus|on)" || warp-cli connect
 
 ENTRYPOINT ["/entrypoint.sh"]
