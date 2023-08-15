@@ -19,7 +19,8 @@ services:
     ports:
       - '1080:1080'
     environment:
-      - WARP_SLEEP=2
+      - WARP_MAX_RETRIES=3
+      - WARP_RETRY_INTERVAL=2
       # - WARP_LICENSE_KEY= # optional
     cap_add:
       - NET_ADMIN
@@ -42,7 +43,9 @@ If the output contains `warp=on` or `warp=plus`, the container is working proper
 
 You can configure the container through the following environment variables:
   
-- `WARP_SLEEP`: The time to wait for the WARP daemon to start, in seconds. The default is 2 seconds. If the time is too short, it may cause the WARP daemon to not start before using the proxy, resulting in the proxy not working properly. If the time is too long, it may cause the container to take too long to start. If your server has poor performance, you can increase this value appropriately.
+- `WARP_MAX_RETRIES`: The retry times to test the WARP status. The default is 3.
+  
+- `WARP_RETRY_INTERVAL`: The time to test the WARP status, in seconds. The default is 2 seconds.
 
 - `WARP_LICENSE_KEY`: The license key of the WARP client, which is optional. If you have subscribed to WARP+ service, you can fill in the key in this environment variable. If you have not subscribed to WARP+ service, you can ignore this environment variable.
   
