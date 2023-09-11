@@ -19,8 +19,6 @@ services:
     ports:
       - '1080:1080'
     environment:
-      - WARP_MAX_RETRIES=3
-      - WARP_RETRY_INTERVAL=2
       # - WARP_LICENSE_KEY= # optional
     cap_add:
       - NET_ADMIN
@@ -42,10 +40,6 @@ If the output contains `warp=on` or `warp=plus`, the container is working proper
 ### Configuration
 
 You can configure the container through the following environment variables:
-  
-- `WARP_MAX_RETRIES`: The retry times to test the WARP status. The default is 3.
-  
-- `WARP_RETRY_INTERVAL`: The time to test the WARP status, in seconds. The default is 2 seconds.
 
 - `WARP_LICENSE_KEY`: The license key of the WARP client, which is optional. If you have subscribed to WARP+ service, you can fill in the key in this environment variable. If you have not subscribed to WARP+ service, you can ignore this environment variable.
   
@@ -59,14 +53,7 @@ If you modify the port number, you may also need to modify the port mapping in t
 
 ### Health check
 
-The health check of the container will verify if the WARP client inside the container is working properly. If the check fails, the container will automatically restart. Specifically, 15 seconds after starting, a check will be performed every 15 seconds. If the inspection fails for 3 consecutive times, the container will be marked as unhealthy and trigger an automatic restart.
-
-```Dockerfile
-HEALTHCHECK --interval=15s --timeout=5s --start-period=30s --retries=3 \
-  CMD curl -fsS "https://cloudflare.com/cdn-cgi/trace" | grep -qE "warp=(plus|on)" || exit 1
-```
-
-If you don't want the container to restart automatically, you can remove `restart: always` from the `docker-compose.yml`. You can also modify the parameters of the health check through the `docker-compose.yml`.
+The health check of the container will verify if the WARP client inside the container is working properly. If not, it will try to correct it.
 
 ## Further reading
 
