@@ -13,4 +13,4 @@ gost $GOST_ARGS &
 
 bash /subscript.sh &
 
-exec warp-svc
+exec warp-svc >/dev/null
