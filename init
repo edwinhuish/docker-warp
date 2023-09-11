@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# exit when any command fails
+set -e
+
+# create a tun device
+mkdir -p /dev/net
+mknod /dev/net/tun c 10 200
+chmod 600 /dev/net/tun
+
+# start the proxy
+gost $GOST_ARGS &
+
+bash /subscript.sh &
+
+exec warp-svc
