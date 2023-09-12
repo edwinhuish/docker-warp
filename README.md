@@ -13,9 +13,9 @@ version: '3'
 
 services:
   warp:
-    image: caomingjun/warp
+    image: edwinhuish/warp
     container_name: warp
-    restart: always
+    restart: unless-stopped
     ports:
       - '1080:1080'
     environment:
@@ -57,4 +57,4 @@ The health check of the container will verify if the WARP client inside the cont
 
 ## Further reading
 
-Read in my [blog post](https://blog.caomingjun.com/run-cloudflare-warp-in-docker/en/#How-it-works).
+Read in prev author [blog post](https://blog.caomingjun.com/run-cloudflare-warp-in-docker/en/#How-it-works).

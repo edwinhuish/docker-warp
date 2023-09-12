@@ -24,8 +24,6 @@ COPY subscript.sh /subscript.sh
 COPY healthcheck.sh /healthcheck.sh
 
 ENV GOST_ARGS="-L :1080"
-ENV WARP_MAX_RETRIES=3
-ENV WARP_RETRY_INTERVAL=2
 
 HEALTHCHECK --interval=15s --timeout=5s --start-period=30s --retries=3 \
   CMD  /bin/bash /healthcheck.sh
