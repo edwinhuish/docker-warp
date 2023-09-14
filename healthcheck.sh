@@ -20,16 +20,13 @@ function start_gost_if_need() {
 }
 
 function warp_health_check {
-  curl -fsS "https://cloudflare.com/cdn-cgi/trace" | grep -qE "warp=(plus|on)" || exit 1
+  curl -fsS "https://cloudflare.com/cdn-cgi/trace" | grep -qE "warp=(plus|on)" || kill 1 && exit 1
 
   exit 0
 }
 
 # start gost if need
 start_gost_if_need
-
-# connect to the warp server every check make sure is connected
-warp-cli connect
 
 # check warp health
 warp_health_check
