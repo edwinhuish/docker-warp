@@ -51,6 +51,8 @@ function warp_health_check {
   # 尝试次数超过限制，kill 进程
   kill 1
 
+  exit 1
+
 }
 
 # start gost if need
