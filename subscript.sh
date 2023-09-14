@@ -3,6 +3,8 @@
 # exit when any command fails
 set -e
 
+DEBIAN_FRONTEND=noninteractive
+
 function register_if_need() {
   if [ -f /var/lib/cloudflare-warp/reg.json ]; then
     return
@@ -27,14 +29,16 @@ while true; do
 
   fi
 
-  echo "warp 服务启动成功"
-  # register if need
-  register_if_need
-
-  # connect to the warp server every check make sure is connected
-  warp-cli connect
-
-  # 退出进程
-  exit 0
+  break
 
 done
+
+echo "warp 服务启动成功"
+# register if need
+register_if_need
+
+# connect to the warp server every check make sure is connected
+warp-cli connect
+
+# 退出进程
+exit 0

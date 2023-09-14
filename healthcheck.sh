@@ -3,6 +3,8 @@
 # exit when any command fails
 set -e
 
+DEBIAN_FRONTEND=noninteractive
+
 if ! warp-cli status 2>/dev/null 1>/dev/null; then
   echo "warp 服务未启动"
   exit 1
