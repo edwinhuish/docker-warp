@@ -16,7 +16,7 @@ function start_gost_if_need() {
   fi
 
   # start the proxy
-  gost $GOST_ARGS &
+  nohup gost $GOST_ARGS &
 }
 
 function warp_health_check {
