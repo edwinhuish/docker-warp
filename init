@@ -13,4 +13,4 @@ gost $GOST_ARGS &
 
 bash /subscript.sh &
 
-exec "@"
+exec "$@"
