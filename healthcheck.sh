@@ -20,29 +20,14 @@ function start_gost_if_need() {
   nohup gost $GOST_ARGS &
 }
 
-# 访问链接函数
-check_warp_status() {
-
-  # 状态正常，返回 0
-  curl -fsS "https://cloudflare.com/cdn-cgi/trace" | grep -qE "warp=(plus|on)" && return 0
-
-  # 状态异常，返回 1
-  return 1
-}
-
 function warp_health_check {
 
   # 循环尝试
   for ((attempt = 1; attempt <= $HEALTHCHECK_RETRY; attempt++)); do
     echo "第 $attempt 次 WARP 状态检测。。。"
 
-    # 调用函数检查 Warp 状态
-    check_warp_status
-
-    # 如果检查成功，则退出脚本
-    if [ $? -eq 0 ]; then
-      exit 0
-    fi
+    # 状态正常，返回 0
+    curl -fsS "https://cloudflare.com/cdn-cgi/trace" | grep -qE "warp=(plus|on)" && exit 0
 
     # 等待 3 秒
     sleep 3

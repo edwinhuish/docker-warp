@@ -23,6 +23,8 @@ COPY init /init
 COPY subscript.sh /subscript.sh
 COPY healthcheck.sh /healthcheck.sh
 
+RUN chmod +x /init /subscript.sh /healthcheck.sh
+
 ENV GOST_ARGS="-L :1080"
 ENV HEALTHCHECK_RETRY=3
 
