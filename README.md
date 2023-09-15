@@ -55,6 +55,8 @@ If you modify the port number, you may also need to modify the port mapping in t
 
 The health check of the container will verify if the WARP client inside the container is working properly. If not, it will try to correct it.
 
+If you want restart container when it's unhealthy, should use [willfarrell/autoheal](https://hub.docker.com/r/willfarrell/autoheal)
+
 ## Further reading
 
 Read in prev author [blog post](https://blog.caomingjun.com/run-cloudflare-warp-in-docker/en/#How-it-works).
