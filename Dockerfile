@@ -28,7 +28,7 @@ RUN chmod +x /init /subscript.sh /healthcheck.sh
 ENV GOST_ARGS="-L :1080"
 
 HEALTHCHECK --interval=15s --timeout=5s --start-period=30s --retries=3 \
-  CMD /bin/bash /healthcheck.sh || exit 1
+  CMD /bin/bash /healthcheck.sh
 
 CMD [ "warp-svc" ]
 
