@@ -23,7 +23,7 @@ function start_gost_if_need() {
 
 function warp_health_check {
 
-  echo /tmp/warp_trace | rep -qE "warp=(plus|on)" || exit 1
+  curl -fsS --connect-timeout 1 --max-time 3 "https://cloudflare.com/cdn-cgi/trace" | grep -qE "warp=(plus|on)" || exit 1
 
 }
 
