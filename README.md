@@ -42,8 +42,6 @@ If the output contains `warp=on` or `warp=plus`, the container is working proper
 You can configure the container through the following environment variables:
 
 - `WARP_LICENSE_KEY`: The license key of the WARP client, which is optional. If you have subscribed to WARP+ service, you can fill in the key in this environment variable. If you have not subscribed to WARP+ service, you can ignore this environment variable.
-
-- `HEALTHCHECK_RETRY`: Max retry times for healthcheck, default is `3`. It will kill main process and exit container if all failed.
   
 Data persistence: Use the host volume `./data` to persist the data of the WARP client. You can change the location of this directory or use other types of volumes. If you modify the `WARP_LICENSE_KEY`, please delete the `./data` directory so that the client can detect and register again.
 
