@@ -11,6 +11,6 @@ chmod 600 /dev/net/tun
 # start the proxy
 gost $GOST_ARGS &
 
-/subscript.sh &
+nohup /background.sh &
 
 exec "$@"

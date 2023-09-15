@@ -23,7 +23,7 @@ function start_gost_if_need() {
 
 function warp_health_check {
 
-  curl -fsS "https://cloudflare.com/cdn-cgi/trace" | grep -qE "warp=(plus|on)" || exit 1
+  echo /tmp/warp_trace | rep -qE "warp=(plus|on)" || exit 1
 
 }
 

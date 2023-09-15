@@ -20,10 +20,10 @@ RUN mkdir -p /root/.local/share/warp && \
   echo -n 'yes' > /root/.local/share/warp/accepted-tos.txt
 
 COPY init /init
-COPY subscript.sh /subscript.sh
+COPY background.sh /background.sh
 COPY healthcheck.sh /healthcheck.sh
 
-RUN chmod +x /init /subscript.sh /healthcheck.sh
+RUN chmod +x /init /background.sh /healthcheck.sh
 
 ENV GOST_ARGS="-L :1080"
 

@@ -5,6 +5,8 @@ set -e
 
 DEBIAN_FRONTEND=noninteractive
 
+touch /tmp/warp_trace
+
 function register_if_need() {
   if [ -f /var/lib/cloudflare-warp/reg.json ]; then
     return
@@ -40,5 +42,10 @@ register_if_need
 # connect to the warp server every check make sure is connected
 warp-cli connect
 
-# 退出进程
-exit 0
+sleep 10
+
+while true; do
+  curl --connect-timeout 3 --max-time 5 -o /tmp/warp_trace https://cloudflare.com/cdn-cgi/trace
+
+  sleep 10
+done
