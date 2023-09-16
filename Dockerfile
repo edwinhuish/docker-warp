@@ -20,16 +20,9 @@ RUN mkdir -p /root/.local/share/warp && \
   echo -n 'yes' > /root/.local/share/warp/accepted-tos.txt
 
 COPY init /init
-COPY background.sh /background.sh
-COPY healthcheck.sh /healthcheck.sh
 
-RUN chmod +x /init /background.sh /healthcheck.sh
+RUN chmod +x /init
 
 ENV GOST_ARGS="-L :1080"
-
-HEALTHCHECK --interval=15s --timeout=5s --start-period=30s --retries=3 \
-  CMD /bin/bash /healthcheck.sh
-
-CMD [ "warp-svc" ]
 
 ENTRYPOINT ["/init"]
