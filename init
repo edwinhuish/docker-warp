@@ -65,8 +65,6 @@ function start_warp_svc_if_need() {
 
 #########################################################
 
-exec "$@"
-
 while true; do
   start_warp_svc_if_need
 
