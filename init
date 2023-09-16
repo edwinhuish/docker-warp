@@ -10,32 +10,6 @@ mkdir -p /dev/net
 mknod /dev/net/tun c 10 200
 chmod 600 /dev/net/tun
 
-function start_warp_svc_if_need() {
-  if pgrep -x "warp-svc" >/dev/null; then
-    return 0
-  fi
-
-  nohup warp-svc >/dev/null &
-
-  while true; do
-
-    if ! warp-cli status 2>&1 >/dev/null; then
-
-      echo "warp 服务未启动，将在 5 秒后重试"
-      sleep 5
-      continue
-
-    fi
-
-    echo "warp 服务启动成功"
-    break
-
-  done
-
-  return 1
-
-}
-
 : ${GOST_ARGS:="-L :1080"}
 
 function start_gost_if_need() {
@@ -61,20 +35,40 @@ function register_if_need() {
   fi
 }
 
+function start_warp_svc_if_need() {
+  if pgrep -x "warp-svc" >/dev/null; then
+    return
+  fi
+
+  nohup warp-svc >/dev/null &
+
+  while true; do
+
+    if ! warp-cli status 2>/dev/null 1>/dev/null; then
+
+      echo "warp 服务未启动，将在 5 秒后重试"
+      sleep 5
+      continue
+
+    fi
+
+    echo "warp 服务启动成功"
+    break
+
+  done
+
+  register_if_need
+
+  warp-cli connect
+
+}
+
 #########################################################
 
 exec "$@"
 
 while true; do
   start_warp_svc_if_need
-
-  startWarpStatus = $?
-
-  register_if_need
-
-  if [ $startWarpStatus -eq 1 ]; then
-    warp-cli connect
-  fi
 
   start_gost_if_need
 
