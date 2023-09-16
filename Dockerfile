@@ -25,9 +25,4 @@ RUN chmod +x /init
 
 ENV GOST_ARGS="-L :1080"
 
-
-HEALTHCHECK --interval=15s --timeout=5s --start-period=30s \
-  CMD /bin/bash /healthcheck.sh
-
-
 ENTRYPOINT ["/init"]
