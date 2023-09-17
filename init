@@ -63,12 +63,20 @@ function start_warp_svc_if_need() {
 
 }
 
+function check_warp_trace() {
+  curl -fsS --connect-timeout 1 --max-time 3 "https://cloudflare.com/cdn-cgi/trace" | grep -qE "warp=(plus|on)" || exit 1
+}
+
 #########################################################
 
 while true; do
   start_warp_svc_if_need
 
   start_gost_if_need
+
+  sleep 10
+
+  check_warp_trace
 
   sleep 10
 
