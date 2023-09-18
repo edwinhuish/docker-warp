@@ -2,14 +2,12 @@ version: '3'
 
 services:
   warp:
-    image: caomingjun/warp
+    image: edwinhuish/warp
     container_name: warp
-    restart: always
+    restart: unless-stopped
     ports:
       - '1080:1080'
-    environment:
-      - WARP_SLEEP=2
-      # - WARP_LICENSE_KEY= # optional
+    environment: # - WARP_LICENSE_KEY= # optional
     cap_add:
       - NET_ADMIN
     sysctls:
