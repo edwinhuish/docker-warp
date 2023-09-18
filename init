@@ -35,13 +35,7 @@ function register_if_need() {
   fi
 }
 
-function start_warp_svc_if_need() {
-  if pgrep -x "warp-svc" >/dev/null; then
-    return
-  fi
-
-  nohup warp-svc >/dev/null &
-
+function wait_for_warp_ready() {
   while true; do
 
     if ! warp-cli status 2>/dev/null 1>/dev/null; then
@@ -56,6 +50,24 @@ function start_warp_svc_if_need() {
     break
 
   done
+}
+
+function run_after_warp_ready() {
+  wait_for_warp_ready
+
+  register_if_need
+
+  warp-cli connect
+}
+
+function start_warp_svc_if_need() {
+  if pgrep -x "warp-svc" >/dev/null; then
+    return
+  fi
+
+  nohup warp-svc >/dev/null &
+
+  wait_for_warp_ready
 
   register_if_need
 
@@ -63,21 +75,10 @@ function start_warp_svc_if_need() {
 
 }
 
-function check_warp_trace() {
-  curl -fsS --connect-timeout 1 --max-time 3 "https://cloudflare.com/cdn-cgi/trace" | grep -qE "warp=(plus|on)" || exit 1
-}
-
 #########################################################
 
-while true; do
-  start_warp_svc_if_need
+start_gost_if_need
 
-  start_gost_if_need
+run_after_warp_ready &
 
-  sleep 10
-
-  check_warp_trace
-
-  sleep 10
-
-done
+warp-svc >/dev/null
