@@ -65,7 +65,7 @@ function start_warp_svc_if_need() {
     return
   fi
 
-  nohup warp-svc >/dev/null &
+  nohup warp-svc | grep -v DEBUG &
 
   wait_for_warp_ready
 
@@ -81,4 +81,4 @@ start_gost_if_need
 
 run_after_warp_ready &
 
-warp-svc >/dev/null
+warp-svc | grep -v DEBUG
