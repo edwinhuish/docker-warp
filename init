@@ -18,7 +18,8 @@ function start_gost_if_need() {
   fi
 
   # start the proxy
-  nohup gost $GOST_ARGS &
+  # nohup gost $GOST_ARGS &
+  nohup gost $GOST_ARGS >/dev/null 2>&1 &
 }
 
 function register_if_need() {
