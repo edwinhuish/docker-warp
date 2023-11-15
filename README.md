@@ -19,6 +19,7 @@ services:
     ports:
       - '1080:1080'
     environment:
+      # - WARP_PROXY_PORT=1080 # optional
       # - WARP_LICENSE_KEY= # optional
     cap_add:
       - NET_ADMIN
@@ -27,16 +28,6 @@ services:
       - net.ipv4.conf.all.src_valid_mark=1
     volumes:
       - ./data:/var/lib/cloudflare-warp
-
-  # Restart container when it's unhealthy
-  autoheal:
-    image: willfarrell/autoheal
-    container_name: autoheal
-    restart: unless-stopped
-    environment:
-      - AUTOHEAL_CONTAINER_LABEL=all
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
 ```
 
 Try it out to see if it works:
@@ -52,21 +43,7 @@ If the output contains `warp=on` or `warp=plus`, the container is working proper
 You can configure the container through the following environment variables:
 
 - `WARP_LICENSE_KEY`: The license key of the WARP client, which is optional. If you have subscribed to WARP+ service, you can fill in the key in this environment variable. If you have not subscribed to WARP+ service, you can ignore this environment variable.
+
+- `WARP_PROXY_PORT`: The socks5 port, default is 1080.
   
 Data persistence: Use the host volume `./data` to persist the data of the WARP client. You can change the location of this directory or use other types of volumes. If you modify the `WARP_LICENSE_KEY`, please delete the `./data` directory so that the client can detect and register again.
-
-### Change proxy type
-
-The container uses [GOST](https://github.com/ginuerzh/gost) to provide proxy, where the environment variable `GOST_ARGS` is used to pass parameters to GOST. The default is `-L :1080`, that is, to listen on port 1080 in the container at the same time through HTTP and SOCKS5 protocols. If you want to have UDP support or use advanced features provided by other protocols, you can modify this parameter. For more information, refer to [GOST documentation](https://v2.gost.run/en/).
-
-If you modify the port number, you may also need to modify the port mapping in the `docker-compose.yml`.
-
-### Health check
-
-The health check of the container will verify if the WARP client inside the container is working properly. If not, it will try to correct it.
-
-If you want restart container when it's unhealthy, should use [willfarrell/autoheal](https://hub.docker.com/r/willfarrell/autoheal)
-
-## Further reading
-
-Read in prev author [blog post](https://blog.caomingjun.com/run-cloudflare-warp-in-docker/en/#How-it-works).
