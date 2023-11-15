@@ -5,7 +5,21 @@ set -e
 
 DEBIAN_FRONTEND=noninteractive
 
-: ${WARP_PROXY_PORT:=1080}
+# create a tun device
+mkdir -p /dev/net
+mknod /dev/net/tun c 10 200
+chmod 600 /dev/net/tun
+
+: ${GOST_ARGS:="-L :1080"}
+
+function start_gost_if_need() {
+  if pgrep -x "gost" >/dev/null; then
+    return
+  fi
+
+  # start the proxy
+  nohup gost $GOST_ARGS &
+}
 
 function register_if_need() {
   if [ -f /var/lib/cloudflare-warp/reg.json ]; then
@@ -44,15 +58,26 @@ function run_after_warp_ready() {
   register_if_need
 
   warp-cli connect
+}
 
-  # 设置工作模式为Proxy
-  warp-cli set-mode proxy
+function start_warp_svc_if_need() {
+  if pgrep -x "warp-svc" >/dev/null; then
+    return
+  fi
 
-  # 设置Socks5工作端口， 默认为1080
-  warp-cli set-proxy-port $WARP_PROXY_PORT
+  nohup warp-svc | grep -v DEBUG &
+
+  wait_for_warp_ready
+
+  register_if_need
+
+  warp-cli connect
+
 }
 
 #########################################################
+
+start_gost_if_need
 
 run_after_warp_ready &
 

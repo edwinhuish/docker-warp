@@ -24,9 +24,9 @@ COPY init /init
 RUN chmod +x /init
 
 ENV WARP_LICENSE_KEY=
-ENV WARP_PROXY_PORT=1080
+ENV GOST_ARGS="-L :1080"
 
-# HEALTHCHECK --interval=15s --timeout=5s --start-period=30s --retries=3 \
-#   CMD curl -fsS --connect-timeout 1 --max-time 3 "https://cloudflare.com/cdn-cgi/trace" | grep -qE "warp=(plus|on)" || exit 1
+HEALTHCHECK --interval=15s --timeout=5s --start-period=30s --retries=3 \
+  CMD curl -fsS --connect-timeout 1 --max-time 3 "https://cloudflare.com/cdn-cgi/trace" | grep -qE "warp=(plus|on)" || exit 1
 
 ENTRYPOINT ["/init"]
