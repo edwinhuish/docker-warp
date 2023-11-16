@@ -66,21 +66,6 @@ function run_after_warp_ready() {
   warp-cli connect
 }
 
-function start_warp_svc_if_need() {
-  if pgrep -x "warp-svc" >/dev/null; then
-    return
-  fi
-
-  nohup warp-svc | grep -v DEBUG &
-
-  wait_for_warp_ready
-
-  register_if_need
-
-  warp-cli connect
-
-}
-
 #########################################################
 
 start_gost_if_need
