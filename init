@@ -38,24 +38,29 @@ function register_if_need() {
 }
 
 function wait_for_warp_ready() {
+
+  echo "------------------------------"
+  echo "Waiting for WARP service..."
+  echo "------------------------------"
+
+  sleep 1
+
   while true; do
 
     if ! warp-cli status >/dev/null 2>&1; then
 
-      echo "--------------------------"
-      echo "等待 warp 服务启动。。。"
-      echo "--------------------------"
       sleep 1
       continue
 
     fi
 
-    echo "--------------------------"
-    echo "warp 服务启动成功"
-    echo "--------------------------"
     break
 
   done
+
+  echo "------------------------------"
+  echo "WARP service started!"
+  echo "------------------------------"
 }
 
 function run_after_warp_ready() {
