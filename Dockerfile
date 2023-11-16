@@ -1,7 +1,6 @@
 FROM edwinhuish/warp:20230918-100341
 
-COPY init /init
-RUN chmod +x /init
+COPY --chmod=755 init /init
 
 ENV WARP_LICENSE_KEY=
 ENV GOST_ARGS="-L :1080"
