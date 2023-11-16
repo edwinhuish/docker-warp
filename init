@@ -18,8 +18,9 @@ function start_gost_if_need() {
   fi
 
   # start the proxy
-  # nohup gost $GOST_ARGS &
   nohup gost $GOST_ARGS >/dev/null 2>&1 &
+  # nohup gost $GOST_ARGS > /dev/null &
+  # nohup gost $GOST_ARGS &
 }
 
 function register_if_need() {
@@ -39,10 +40,12 @@ function register_if_need() {
 function wait_for_warp_ready() {
   while true; do
 
-    if ! warp-cli status 2>/dev/null 1>/dev/null; then
+    if ! warp-cli status >/dev/null 2>&1; then
 
-      echo "warp 服务未启动，将在 5 秒后重试"
-      sleep 5
+      echo "--------------------------"
+      echo "等待 warp 服务启动。。。"
+      echo "--------------------------"
+      sleep 1
       continue
 
     fi
