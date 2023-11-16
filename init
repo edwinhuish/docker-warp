@@ -50,7 +50,9 @@ function wait_for_warp_ready() {
 
     fi
 
+    echo "--------------------------"
     echo "warp 服务启动成功"
+    echo "--------------------------"
     break
 
   done
