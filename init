@@ -39,9 +39,9 @@ function register_if_need() {
 
 function wait_for_warp_ready() {
 
-  echo "------------------------------"
+  echo -e "\n\n------------------------------"
   echo "Waiting for WARP service..."
-  echo "------------------------------"
+  echo -e "------------------------------\n\n"
 
   sleep 1
 
@@ -58,9 +58,9 @@ function wait_for_warp_ready() {
 
   done
 
-  echo "------------------------------"
+  echo -e "\n\n------------------------------"
   echo "WARP service started!"
-  echo "------------------------------"
+  echo -e "------------------------------\n\n"
 }
 
 function run_after_warp_ready() {
