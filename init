@@ -18,7 +18,7 @@ function start_gost_if_need() {
   fi
 
   # start the proxy
-  nohup gost $GOST_ARGS >/dev/null 2>&1 &
+  nohup gost -F=socks5://127.0.0.1:4000 $GOST_ARGS >/dev/null 2>&1 &
   # nohup gost $GOST_ARGS > /dev/null &
   # nohup gost $GOST_ARGS &
 }
@@ -67,6 +67,9 @@ function run_after_warp_ready() {
   wait_for_warp_ready
 
   register_if_need
+
+  warp-cli set-proxy-port 4000
+  warp-cli set-mode proxy
 
   warp-cli connect
 }
