@@ -6,7 +6,7 @@ ENV WARP_LICENSE_KEY=
 ENV GOST_ARGS="-L :1080"
 
 HEALTHCHECK --interval=15s --timeout=5s --start-period=30s --retries=3 \
-  CMD curl -x socks5://127.0.0.1:4000 -fsS --connect-timeout 1 --max-time 3 "https://cloudflare.com/cdn-cgi/trace" \
+  CMD curl -fsS --connect-timeout 1 --max-time 3 "https://cloudflare.com/cdn-cgi/trace" \
   | grep -qE "warp=(plus|on)" \
   || (warp-cli connect; exit 1)
 
